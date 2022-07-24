@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 int	autocompletamento_riga(int **mat, int n)
 {
 	int	i;
@@ -170,10 +171,180 @@ int	autocompletamento_sparsi(int **mat, int n)
 	return (0);
 }
 
-void	autocompletamento(int **mat, int n)
+int	risoluzione_nmeno1(int **numbers, int **mat, int n)
 {
-	while(autocompletamento_riga(mat, n) ||
-		autocompletamento_colonna(mat, n) ||
-		autocompletamento_sparsi(mat, n))
-	{}
+	int	i;
+	int	j;
+	int	pos;
+	int	count;
+
+	i = 0;
+	while(i < n)
+	{
+		
+		j = 0;
+		count = 0;
+		while(j < n)
+		{
+			if(numbers[i][j] == 0)
+			{
+				numbers[i][j] = 1;
+				pos = j;
+				count++;
+			}
+			j++;
+		}
+		if(count == 1)
+		{
+			mat[i][pos] = n-1;
+			return (1);
+		}
+		i++;
+	}
+	i = 0;
+	while(i < n)
+	{
+		j = 0;
+		count = 0;
+		while(j < n)
+		{
+			if(numbers[j][i] == 0)
+			{
+				numbers[j][i] = 1;
+				pos = j;
+				count++;
+			}
+			else if(mat[i][j] != 0)
+				numbers[i][j] = 1;
+			j++;
+		}
+		if(count == 1)
+		{
+			mat[pos][i] = n-1;
+			return (1);
+		}
+		i++;
+	}
+    return (0);
+}
+
+int	autocompletamento_nmeno1(int **input, int **mat, int n)
+{
+	int	i;
+	int	j;
+	int	k;
+	int	ncount;
+	int	count;
+	int	**numbers = malloc(8*4);
+	numbers[0] = malloc(4*4);
+	numbers[1] = malloc(4*4);
+	numbers[2] = malloc(4*4);
+	numbers[3] = malloc(4*4);
+	
+
+	i = 0;
+	while(i < n)
+	{
+		j = 0;
+		while(j < n)
+		{
+			numbers[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	while(i < 4)
+	{
+		
+		j = 0;
+		count = 0;
+		while(j < n)
+		{
+			if(input[i][j] == n-1)
+			{
+				if(i == 0)
+					numbers[0][j] = 1;
+				else if(i == 1)
+					numbers[n-1][j] = 1;
+				else if(i == 2)
+					numbers[j][0] = 1;
+				else if(i == 3)
+					numbers[j][n-1] = 1;
+			}
+			j++;
+		}
+		
+		i++;
+	}
+	i = 0;
+	while(i < n)
+	{
+		j = 0;
+		while(j < n)
+		{
+			if(mat[i][j] == n-1)
+			{
+				k = 0;
+				while(k < n)
+				{
+					numbers[k][j] = 1;
+					k++;
+				}
+				k = 0;
+				while(k < n)
+				{
+					numbers[i][k] = 1;
+					k++;
+				}
+			}
+			else if(mat[i][j] != 0)
+				numbers[i][j] = 1;
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	count = 0;
+	ncount = 0;
+	while(i < n)
+	{
+		j = 0;
+		while(j < n)
+		{
+			if(numbers[i][j]==0)
+				count++;
+			if(mat[i][j]==n-1)
+				ncount++;
+			j++;
+		}
+		i++;
+	}
+	if(n - ncount==count)
+	{
+		i = 0;
+		while(i < n)
+		{
+			j = 0;
+			while(j < n)
+			{
+				if(numbers[i][j]==0)
+				{
+					mat[i][j]=n-1;
+					return (1);
+				}
+				j++;
+			}
+			i++;
+		}
+	}
+	return (risoluzione_nmeno1(numbers, mat, n));
+}
+
+int	autocompletamento(int **input, int **mat, int n)
+{
+	return(autocompletamento_riga(mat, n) +
+		autocompletamento_colonna(mat, n) +
+		autocompletamento_sparsi(mat, n) +
+		autocompletamento_nmeno1(input, mat, n));
 }
