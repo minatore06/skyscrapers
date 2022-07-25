@@ -1,29 +1,25 @@
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   brute.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: scaiazzo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/24 19:55:49 by scaiazzo          #+#    #+#             */
+/*   Updated: 2022/07/24 19:55:55 by scaiazzo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include <unistd.h>
+
 void	brute(int **mat, int **sure, int n, int error)
 {
 	int	i;
 	int	j;
 	int	k;
-	int	sos;
-	int	sas;
 	int	no;
 	int	number;
 	int	numbers[n];
-	//char	c;
-	
-						sos=0;
-					    	while(sos<4){
-						sas=0;
-						while(sas<4)
-						{
-						    printf("%d  ", mat[sos][sas]);
-						    sas++;
-						}
-						printf("\n");
-						sos++;
-					    }
-						printf("\n");
+
 	i = 0;
 	while(i < n)
 	{
@@ -55,10 +51,10 @@ void	brute(int **mat, int **sure, int n, int error)
 				j++;
 				continue;
 			}
-			if(number/n > 0)
+			if(number > n)
 			{
 				j++;
-				number=number/(n+1);
+				number=number-n;
 				continue;
 			}
 			k = 0;
@@ -83,9 +79,7 @@ void	brute(int **mat, int **sure, int n, int error)
 				}
 				if((mat[i][k] == numbers[number] && k != j) || 
 					(mat[k][j] == numbers[number] && k != i))
-				{	
-					if(mat[i][j] == numbers[number])
-						mat[i][j] = 0;
+				{
 					numbers[number] = 0;
 					k = 0;
 					number++;

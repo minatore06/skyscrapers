@@ -1,4 +1,15 @@
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   assegnazioni_sicure.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: scaiazzo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/24 19:55:27 by scaiazzo          #+#    #+#             */
+/*   Updated: 2022/07/24 19:55:33 by scaiazzo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 void assegnazioni_sicure(int **input, int **mat, int n)
 {
     int i;
@@ -12,7 +23,7 @@ void assegnazioni_sicure(int **input, int **mat, int n)
         j = 0;
         while(j < n)
         {
-            if(input[i][j] == 4)//controllo dei 4
+            if(input[i][j] == n)//controllo dei n
             {
                 if(i < 2)
                     col = 1;
